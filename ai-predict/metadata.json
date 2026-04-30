@@ -1,0 +1,5 @@
+{
+  "name": "AI Predict",
+  "description": "A next-generation stock prediction platform integrating simulated Machine Learning models with Gemini AI for deep market insights. Features interactive charts, real-time data simulation, and AI-driven analysis.",
+  "requestFramePermissions": []
+}
