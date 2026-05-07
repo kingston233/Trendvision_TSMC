@@ -1,106 +1,125 @@
-# 台積電股價預測應用 - 簡化版
+# TrendVision TSMC — 台積電股價預測系統
 
-專注於兩個核心功能的股價預測應用。
+以機器學習預測台積電（2330）下一個交易日收盤價，並提供歷史資料視覺化與技術指標分析。
 
-## 功能
+---
 
-1. **預測收盤價** - 使用機器學習模型預測台積電下一個交易日收盤價
-2. **CSV 資料展示** - 查看所有收集到的歷史資料和技術指標
+## 系統功能
 
-## 快速開始
+| 功能 | 說明 |
+|------|------|
+| 收盤價預測 | 使用訓練好的 ML 模型預測下一交易日收盤價 |
+| 技術指標圖表 | 顯示收盤價走勢、MACD 等技術指標 |
+| 歷史資料瀏覽 | 查看所有 CSV 格式的歷史股價與技術指標資料 |
+| 本益比顯示 | 讀取基本面資料並顯示當前本益比 |
+| 資料抓取 | 透過 API 觸發 `Get2330.py` 重新抓取最新股價 |
+| 模型重訓 | 透過 API 觸發 `ML.py` 使用最新資料重新訓練模型 |
 
-### 首次使用
-# 快速啟動指南
-.\setup_venv.bat
+---
 
-## 🚀 推薦啟動方式
+## 系統技術
 
-### 方式一：分別啟動（最穩定）
+**後端**
+- Python / FastAPI — REST API 框架
+- scikit-learn / joblib — 機器學習模型訓練與載入
+- pandas / numpy — 資料處理
+- yfinance — Yahoo Finance 股價資料抓取
+- uvicorn — ASGI 伺服器
 
-1. **啟動後端**
-   ```
-   雙擊 start_backend.bat
-   ```
-   等待看到 "Application startup complete" 訊息
+**前端**
+- React 19 + TypeScript — UI 框架
+- Vite — 開發與打包工具
+- Tailwind CSS — 樣式框架
+- Recharts / lightweight-charts — 圖表元件
+- @google/genai — Gemini AI 整合
 
-2. **啟動前端**
-   ```
-   雙擊 start_frontend.bat
-   ```
-   等待瀏覽器自動打開
+---
 
-### 方式二：一鍵啟動
+## 首次使用（環境建立）
 
+### 前置需求
+- Python 3.8 以上
+- Node.js 16 以上
+
+### 步驟 1 — 建立 Python 虛擬環境並安裝套件
+```
+雙擊 setup_venv.bat
+```
+這會自動建立 `venv/`、升級 pip、並安裝所有後端套件。
+
+### 步驟 2 — 抓取股價資料
+```
+venv\Scripts\python.exe DataGet\Get2330.py
+```
+
+### 步驟 3 — 訓練預測模型
+```
+venv\Scripts\python.exe DataGet\ML.py
+```
+
+### 步驟 4 — 安裝前端套件
+```
+cd ai-predict
+npm install
+```
+
+---
+
+## 啟動系統
+
+### 方式一：一鍵啟動（前後端同時）
 ```
 雙擊 start_app.bat
 ```
+會自動開啟兩個視窗，分別執行後端與前端。
 
-會自動打開兩個視窗（後端 + 前端）
+### 方式二：分開啟動（建議，較穩定）
 
----
+1. 先啟動後端，等待看到 `Application startup complete`
+```
+雙擊 start_backend.bat
+```
 
-## 📋 首次使用檢查清單
+2. 再啟動前端
+```
+雙擊 start_frontend.bat
+```
 
-- [ ] 已安裝 Python 3.8+
-- [ ] 已安裝 Node.js 16+
-- [ ] 已安裝前端依賴 (`cd ai-predict && npm install`)
-- [ ] 已安裝後端依賴 (`pip install fastapi uvicorn pandas numpy joblib yfinance scikit-learn`)
-- [ ] 已執行 `Get2330.py` 抓取資料
-- [ ] 已執行 `ML.py` 訓練模型
-
----
-
-## 🔗 訪問地址
-
-- **前端應用：** http://localhost:5173
-- **後端 API：** http://localhost:8000
-- **API 文檔：** http://localhost:8000/docs
+> 首次啟動前端時，`start_frontend.bat` 會自動偵測是否已安裝 `node_modules`，沒有的話會先執行 `npm install`。
 
 ---
 
-## ❓ 常見問題
-
-**Q: 啟動腳本執行失敗？**
-A: 使用分別啟動方式（start_backend.bat + start_frontend.bat）
-
-**Q: 找不到模型？**
-A: 執行 `cd DataGet && python ML.py`
-
-**Q: 找不到資料？**
-A: 執行 `cd DataGet && python Get2330.py`
-
-**Q: 前端無法連接後端？**
-A: 確認後端已啟動（訪問 http://localhost:8000/docs）
-
----
-
-## 📁 啟動腳本說明
+## 啟動腳本說明
 
 | 腳本 | 用途 |
 |------|------|
-| `start_app.bat` | 同時啟動前後端 |
-| `start_backend.bat` | 只啟動後端 |
-| `start_frontend.bat` | 只啟動前端 |
+| `setup_venv.bat` | 建立虛擬環境並安裝所有 Python 套件 |
+| `start_app.bat` | 同時啟動後端與前端 |
+| `start_backend.bat` | 只啟動後端 API |
+| `start_frontend.bat` | 只啟動前端（自動檢查 npm install） |
 
 ---
 
-詳細說明請查看 `walkthrough.md`
+## 訪問地址
 
-### 日常使用
+| 服務 | 網址 |
+|------|------|
+| 前端應用 | http://localhost:3000 |
+| 後端 API | http://localhost:8000 |
+| API 文件 | http://localhost:8000/docs |
 
-```bash
-# 直接啟動
-start_app.bat
-```
+---
 
-## 訪問應用
+## 常見問題
 
-- **前端應用：** http://localhost:5173
-- **後端 API：** http://localhost:8000
-- **API 文檔：** http://localhost:8000/docs
+**Q: 執行 ML.py 出現 `ModuleNotFoundError`？**
+A: 確認使用虛擬環境執行：`venv\Scripts\python.exe DataGet\ML.py`，不要直接用系統的 `python`。
 
-## 技術棧
+**Q: API 回傳 500 錯誤？**
+A: `Data/` 資料夾不存在，請先執行 `Get2330.py` 抓取資料，再執行 `ML.py` 訓練模型。
 
-**後端：** FastAPI + scikit-learn + pandas  
-**前端：** React + TypeScript + Tailwind CSS
+**Q: 前端無法連線後端？**
+A: 確認後端已啟動，可開啟 http://localhost:8000/docs 確認。
 
+**Q: 前端啟動失敗，`vite` 不是可執行命令？**
+A: 尚未安裝前端套件，在 `ai-predict/` 目錄下執行 `npm install`。
